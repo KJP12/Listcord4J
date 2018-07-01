@@ -5,6 +5,7 @@ A library for https://listcord.com/developers/docs
 <h2>Including it in your build</h2>
 <h3>Maven (pom.xml)</h3>
 Add the JitPack.io repository if you haven't already
+
 ```xml
 <repositories>
     <repository>
@@ -14,6 +15,7 @@ Add the JitPack.io repository if you haven't already
 </repositories>
 ```
 Add the Listcord4J dependency.
+
 ```xml
 <dependencies>
     <dependency>
@@ -27,6 +29,7 @@ Add the Listcord4J dependency.
 
 <h3>Gradle (build.gradle)</h3>
 Add the JitPack.io repository if you haven't already
+
 ```groovy
 allprojects {
 	repositories {
@@ -35,6 +38,7 @@ allprojects {
 }
 ```
 Add the Listcord4J dependency.
+
 ```groovy
 dependencies {
     compile 'com.github.KJP12:Listcord4J:master-SNAPSHOT'
@@ -45,6 +49,7 @@ dependencies {
 <h2>Examples</h2>
 <h3>JDA</h3>
 <h4>Java</h4>
+
 ```java
 import net.kjp12.listcord4j.*;
 import net.dv8tion.jda.bot.sharding.*;
@@ -68,6 +73,7 @@ public class Example extends ListenerAdapter{
 }
 ```
 <h4>Groovy</h4>
+
 ```groovy
 import net.kjp12.listcord4j.*
 import net.dv8tion.jda.bot.sharding.*
