@@ -1,7 +1,7 @@
 # Listcord4J
 [![](https://jitpack.io/v/KJP12/Listcord4J.svg)](https://jitpack.io/#KJP12/Listcord4J) 
 
-A library for https://listcord.com/developers/docs
+A library for https://listcord.com
 
 <h2>Including it in your build</h2>
 <h3>Maven (pom.xml)</h3>
