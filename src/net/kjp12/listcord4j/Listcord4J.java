@@ -32,8 +32,7 @@ public class Listcord4J {
 
     @Nullable
     public Bot getBot(String id) {
-        try {
-            Response r = get(new URL("https://listcord.com/api/bot/" + id), headers().build());
+        try (Response r = get(new URL("https://listcord.com/api/bot/" + id), headers().build())) {
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bot " + id + "; Got " + r.code());
                 return null;
@@ -54,10 +53,9 @@ public class Listcord4J {
     public List<Bot> getBots(int limit, int offset, @Nullable String search) {
         if (limit < 0) throw new IllegalArgumentException("Limit < 0");
         if (offset < 0) throw new IndexOutOfBoundsException("Offset < 0");
-        try {
-            Headers.Builder builder = headers();
-            if (search != null) builder.add("q", search);
-            Response r = get(new URL("https://listcord.com/api/bots/" + limit + "/" + offset), builder.build());
+        Headers.Builder builder = headers();
+        if (search != null) builder.add("q", search);
+        try (Response r = get(new URL("https://listcord.com/api/bots/" + limit + "/" + offset), builder.build())) {
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bots with l:" + limit + ", o:" + offset + ", q:" + search + "; Got " + r.code());
                 return Collections.emptyList();
@@ -80,12 +78,10 @@ public class Listcord4J {
 
     public void updateGuilds(long id, int guilds, int shard) {
         if (guilds < 0) throw new IllegalArgumentException("Guilds < 0");
-        try {
-            FormBody.Builder builder = new FormBody.Builder().add("guilds", Integer.toString(guilds));
-            if (shard >= 0) builder.add("shard", Integer.toString(shard));
-            Response r = post(new URL("https://listcord.com/api/bot/" + Long.toUnsignedString(id) + "/guilds"), headers().build(), builder.build());
-            if (!r.isSuccessful())
-                LOGGER.warn("Couldn't post count for " + id + " (" + shard + ") Got " + r.code());
+        FormBody.Builder builder = new FormBody.Builder().add("guilds", Integer.toString(guilds));
+        if (shard >= 0) builder.add("shard", Integer.toString(shard));
+        try (Response r = post(new URL("https://listcord.com/api/bot/" + Long.toUnsignedString(id) + "/guilds"), headers().build(), builder.build())) {
+            if (!r.isSuccessful()) LOGGER.warn("Couldn't post count for " + id + " (" + shard + ") Got " + r.code());
         } catch (IOException ioe) {
             LOGGER.error("");
         }
