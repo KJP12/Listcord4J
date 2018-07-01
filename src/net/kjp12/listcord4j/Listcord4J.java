@@ -33,11 +33,12 @@ public class Listcord4J {
     @Nullable
     public Bot getBot(String id) {
         try (Response r = get(new URL("https://listcord.com/api/bot/" + id), headers().build())) {
+            ResponseBody rb = r.body();
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bot " + id + "; Got " + r.code());
+                if (rb != null) LOGGER.warn("BODY\n" + rb.string());
                 return null;
             }
-            ResponseBody rb = r.body();
             if (rb == null) {
                 LOGGER.warn("Null body for bot " + id + "; Got " + r.code());
                 return null;
@@ -56,11 +57,12 @@ public class Listcord4J {
         Headers.Builder builder = headers();
         if (search != null) builder.add("q", search);
         try (Response r = get(new URL("https://listcord.com/api/bots/" + limit + "/" + offset), builder.build())) {
+            ResponseBody rb = r.body();
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bots with l:" + limit + ", o:" + offset + ", q:" + search + "; Got " + r.code());
+                if (rb != null) LOGGER.warn("BODY\n" + rb.string());
                 return Collections.emptyList();
             }
-            ResponseBody rb = r.body();
             if (rb == null) {
                 LOGGER.warn("Null body with l:" + limit + ", o:" + offset + ", q:" + search + "; Got " + r.code());
                 return Collections.emptyList();
@@ -82,6 +84,8 @@ public class Listcord4J {
         if (shard >= 0) builder.add("shard", Integer.toString(shard));
         try (Response r = post(new URL("https://listcord.com/api/bot/" + Long.toUnsignedString(id) + "/guilds"), headers().build(), builder.build())) {
             if (!r.isSuccessful()) LOGGER.warn("Couldn't post count for " + id + " (" + shard + ") Got " + r.code());
+            ResponseBody rb = r.body();
+            if (rb != null) LOGGER.warn("BODY\n" + rb.string());
         } catch (IOException ioe) {
             LOGGER.error("");
         }
