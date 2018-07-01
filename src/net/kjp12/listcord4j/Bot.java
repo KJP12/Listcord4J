@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class Bot {
     public JSONObject toJson() {
         JSONObject object = new JSONObject().put("id", id).put("username", username).put("discriminator", discriminator)
                 .put("invite", invite).put("owners", owners).put("online", online).put("premium", premium).put("servers", servers)
-                .put("invites", invites).put("votes", votes).put("nextVote", nextVote.toInstant().getLong(ChronoField.MILLI_OF_DAY));
+                .put("invites", invites).put("votes", votes).put("nextVote", nextVote.format(DateTimeFormatter.RFC_1123_DATE_TIME));
         if (description != null) object.put("description", description);
         if (website != null) object.put("website", website);
         if (support != null) object.put("support", support);

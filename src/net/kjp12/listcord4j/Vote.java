@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
 
 public class Vote {
     @NotNull
@@ -34,8 +34,8 @@ public class Vote {
 
     public JSONObject toJson() {
         return new JSONObject().put("id", id).put("count", count)
-                .put("lastVote", lastVote.toInstant().getLong(ChronoField.MILLI_OF_DAY))
-                .put("nextVote", nextVote.toInstant().getLong(ChronoField.MILLI_OF_DAY));
+                .put("lastVote", lastVote.format(DateTimeFormatter.RFC_1123_DATE_TIME))
+                .put("nextVote", nextVote.format(DateTimeFormatter.RFC_1123_DATE_TIME));
     }
 
 
