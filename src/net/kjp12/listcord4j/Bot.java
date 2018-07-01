@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,25 @@ public class Bot {
         votes = obj.optInt("votes", -1);
 
         nextVote = OffsetDateTime.ofInstant(Instant.ofEpochMilli(obj.optLong("nextVote", 0)), ZoneId.systemDefault());
+    }
+
+    public int hashCode() {
+        return (int) idLong ^ (int) (idLong >> 32);
+    }
+
+    public String toString() {
+        return toJson().toString();
+    }
+
+    public JSONObject toJson() {
+        JSONObject object = new JSONObject().put("id", id).put("username", username).put("discriminator", discriminator)
+                .put("invite", invite).put("owners", owners).put("online", online).put("premium", premium).put("servers", servers)
+                .put("invites", invites).put("votes", votes).put("nextVote", nextVote.toInstant().getLong(ChronoField.MILLI_OF_DAY));
+        if (description != null) object.put("description", description);
+        if (website != null) object.put("website", website);
+        if (support != null) object.put("support", support);
+        if (avatar != null) object.put("avatar", avatar);
+        return object;
     }
 
     public long getIdLong() {

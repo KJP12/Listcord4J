@@ -103,6 +103,7 @@ public class Listcord4J {
         return new Request.Builder().url(url).headers(headers);
     }
 
-    protected void finalize() {
+    public int hashCode() {
+        return TOKEN.hashCode();
     }
 }
