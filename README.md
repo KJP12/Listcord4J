@@ -2,9 +2,8 @@
 [![](https://jitpack.io/v/KJP12/Listcord4J.svg)](https://jitpack.io/#KJP12/Listcord4J) 
 A library for https://listcord.com/developers/docs
 
-##Working with it in Java
-###Including it into your project
-####Maven (pom.xml)
+<h2>Including it in your build</h2>
+<h3>Maven (pom.xml)</h3>
 Add the JitPack.io repository if you haven't already
 ```xml
 <repositories>
@@ -26,7 +25,7 @@ Add the Listcord4J dependency.
 </dependencies>
 ```
 
-####Gradle (build.gradle)
+<h3>Gradle (build.gradle)</h3>
 Add the JitPack.io repository if you haven't already
 ```groovy
 allprojects {
@@ -43,9 +42,9 @@ dependencies {
 }
 ```
 
-###Implementations
-####JDA
-#####Java
+<h2>Examples</h2>
+<h3>JDA</h3>
+<h4>Java</h4>
 ```java
 import net.kjp12.listcord4j.*;
 import net.dv8tion.jda.bot.sharding.*;
@@ -68,7 +67,7 @@ public class Example extends ListenerAdapter{
     }
 }
 ```
-#####Groovy
+<h4>Groovy</h4>
 ```groovy
 import net.kjp12.listcord4j.*
 import net.dv8tion.jda.bot.sharding.*
