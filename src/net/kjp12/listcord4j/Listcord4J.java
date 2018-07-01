@@ -51,6 +51,30 @@ public class Listcord4J {
     }
 
     @NotNull
+    public List<Vote> getVotes(String id) {
+        try (Response r = get(new URL("https://listcord.com/api/bot/" + id + "/votes"), headers().build())) {
+            ResponseBody rb = r.body();
+            if (!r.isSuccessful()) {
+                LOGGER.warn("Couldn't get bot " + id + "; Got " + r.code());
+                if (rb != null) LOGGER.warn("BODY\n" + rb.string());
+                return null;
+            }
+            if (rb == null) {
+                LOGGER.warn("Null body for bot " + id + "; Got " + r.code());
+                return null;
+            }
+            JSONArray array = new JSONArray(new JSONTokener(rb.charStream()));
+            ArrayList<Vote> votes = new ArrayList<>(array.length());
+            for (Object o : array) votes.add(new Vote((JSONObject) o));
+            return Collections.unmodifiableList(votes);
+        } catch (IOException ioe) {
+            LOGGER.error("Couldn't get bot " + id, ioe);
+        }
+        return Collections.emptyList();
+    }
+
+    //possible impl bad; other wrappers not implementing it; leaving out
+    /*@NotNull
     public List<Bot> getBots(int limit, int offset, @Nullable String search) {
         if (limit < 0) throw new IllegalArgumentException("Limit < 0");
         if (offset < 0) throw new IndexOutOfBoundsException("Offset < 0");
@@ -76,7 +100,7 @@ public class Listcord4J {
             LOGGER.error("Couldn't get anything?!", ioe);
         }
         return Collections.emptyList();
-    }
+    }*/
 
     public void updateGuilds(long id, int guilds, int shard) {
         if (guilds < 0) throw new IllegalArgumentException("Guilds < 0");
