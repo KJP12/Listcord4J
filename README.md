@@ -3,6 +3,8 @@
 
 A library for https://listcord.com
 
+*Might get renamed to JLA to avoid conflict with another Listcord4J*
+
 <h2>Including it in your build</h2>
 <h3>Maven (pom.xml)</h3>
 Add the JitPack.io repository if you haven't already
