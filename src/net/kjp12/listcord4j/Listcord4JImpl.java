@@ -34,7 +34,7 @@ public final class Listcord4JImpl implements Listcord4J {
 
     @Nullable
     public Bot getBot(@NotNull String id) {
-        try (Response r = get(new URL("https://listcord.com/api/bot/" + id), headers().build())) {
+        try (Response r = get(new URL(LISTCORD_URL + "bot/" + id), headers().build())) {
             ResponseBody rb = r.body();
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bot " + id + "; Got " + r.code());
@@ -54,7 +54,7 @@ public final class Listcord4JImpl implements Listcord4J {
 
     @NotNull
     public List<Vote> getVotes(@NotNull String id) {
-        try (Response r = get(new URL("https://listcord.com/api/bot/" + id + "/votes"), headers().build())) {
+        try (Response r = get(new URL(LISTCORD_URL + "bot/" + id + "/votes"), headers().build())) {
             ResponseBody rb = r.body();
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bot " + id + "; Got " + r.code());
@@ -75,14 +75,9 @@ public final class Listcord4JImpl implements Listcord4J {
         return Collections.emptyList();
     }
 
-    //possible impl bad; other wrappers not implementing it; leaving out
-    /*@NotNull
-    public List<Bot> getBots(int limit, int offset, @Nullable String search) {
-        if (limit < 0) throw new IllegalArgumentException("Limit < 0");
-        if (offset < 0) throw new IndexOutOfBoundsException("Offset < 0");
-        Headers.Builder builder = headers();
-        if (search != null) builder.add("q", search);
-        try (Response r = get(new URL("https://listcord.com/api/bots/" + limit + "/" + offset), builder.build())) {
+    @NotNull
+    public List<Integer> getBots(SortingType type, int limit, int offset, @Nullable String search) {
+        try (Response r = get(type.toUrl(limit, offset, search), headers().build())) {
             ResponseBody rb = r.body();
             if (!r.isSuccessful()) {
                 LOGGER.warn("Couldn't get bots with l:" + limit + ", o:" + offset + ", q:" + search + "; Got " + r.code());
@@ -95,21 +90,21 @@ public final class Listcord4JImpl implements Listcord4J {
             }
             JSONArray jsona = new JSONArray(new JSONTokener(rb.charStream()));
             int length = jsona.length();
-            ArrayList<Bot> bots = new ArrayList<>(length);
-            for (int i = 0; i < length; i++) bots.add(i, new Bot(jsona.getJSONObject(i)));
+            ArrayList<Integer> bots = new ArrayList<>(length);
+            for (int i = 0; i < length; i++) bots.add(i, jsona.getInt(i));
             return Collections.unmodifiableList(bots);
         } catch (IOException ioe) {
             LOGGER.error("Couldn't get anything?!", ioe);
         }
         return Collections.emptyList();
-    }*/
+    }
 
     public void updateGuilds(@NotNull String id, int guilds, int shard) {
         Objects.requireNonNull(id, "bot id");
         if (guilds < 0) throw new IllegalArgumentException("Guilds < 0");
         FormBody.Builder builder = new FormBody.Builder().add("guilds", Integer.toString(guilds));
         if (shard >= 0) builder.add("shard", Integer.toString(shard));
-        try (Response r = post(new URL("https://listcord.com/api/bot/" + id + "/guilds"), headers().build(), builder.build())) {
+        try (Response r = post(new URL(LISTCORD_URL + "bot/" + id + "/guilds"), headers().build(), builder.build())) {
             if (!r.isSuccessful()) LOGGER.warn("Couldn't post count for " + id + " (" + shard + ") Got " + r.code());
             ResponseBody rb = r.body();
             if (rb != null) LOGGER.warn("BODY\n" + rb.string());

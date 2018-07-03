@@ -6,6 +6,10 @@ import com.sun.istack.internal.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * In case you need a implementation that discards input.
+ */
 public final class DiscardImpl implements Listcord4J {
     @Nullable
     @Override
@@ -16,6 +20,12 @@ public final class DiscardImpl implements Listcord4J {
     @NotNull
     @Override
     public List<Vote> getVotes(String id) {
+        return Collections.emptyList();
+    }
+
+    @NotNull
+    @Override
+    public List<Integer> getBots(SortingType type, int limit, int offset, String search) {
         return Collections.emptyList();
     }
 
