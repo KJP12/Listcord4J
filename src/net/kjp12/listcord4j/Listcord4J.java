@@ -22,7 +22,7 @@ public interface Listcord4J {
     void updateGuilds(@NotNull String id, int guilds, int shard);
 
     enum SortingType {
-        VOTES, NEWEST;
+        VOTES, NEWEST, SERVERS;
 
         public URL toUrl(int limit, int offset, @Nullable String query) throws IOException {
             StringBuilder sb = new StringBuilder(LISTCORD_URL).append("bots/").append(name().toLowerCase()).append('/');
